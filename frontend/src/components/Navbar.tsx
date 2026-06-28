@@ -13,7 +13,6 @@ import {
   LogOut,
   Search,
   Settings,
-  User,
   Video,
   X,
 } from "lucide-react";
@@ -251,7 +250,7 @@ function SearchModal({ onClose }: { onClose: () => void }) {
         {/* Results */}
         <div className="max-h-[320px] overflow-y-auto py-2">
           {results.length === 0 ? (
-            <p className="text-center text-[13px] text-[#ADADAD] py-8">No results for "{query}"</p>
+            <p className="text-center text-[13px] text-[#ADADAD] py-8"> No results for &quot;{query}&quot; </p>
           ) : (
             results.map((r) => (
               <button

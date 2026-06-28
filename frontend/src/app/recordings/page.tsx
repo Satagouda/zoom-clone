@@ -23,13 +23,13 @@ import Navbar from "@/components/Navbar";
 // =============================================================================
 
 export interface Recording {
-  id:          string;   // uuid
-  meetingId:   string;
-  title:       string;
-  filename:    string;
+  id: string;   // uuid
+  meetingId: string;
+  title: string;
+  filename: string;
   durationSec: number;
-  sizeMB:      number;
-  createdAt:   string;   // ISO string
+  sizeMB: number;
+  createdAt: string;   // ISO string
 }
 
 // Key used in localStorage by the meeting room page
@@ -47,12 +47,12 @@ function formatDuration(sec: number): string {
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleString("en-US", {
-    month:   "short",
-    day:     "numeric",
-    year:    "numeric",
-    hour:    "numeric",
-    minute:  "2-digit",
-    hour12:  true,
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
   });
 }
 
@@ -68,31 +68,31 @@ function seedMockRecordings(): Recording[] {
   const now = Date.now();
   return [
     {
-      id:          "rec-001",
-      meetingId:   "433-323-038",
-      title:       "Sprint 13 Retrospective",
-      filename:    "zoom_recording_2026-06-21T10-00-00.webm",
+      id: "rec-001",
+      meetingId: "433-323-038",
+      title: "Sprint 13 Retrospective",
+      filename: "zoom_recording_2026-06-21T10-00-00.webm",
       durationSec: 3612,
-      sizeMB:      48.2,
-      createdAt:   new Date(now - 7 * 24 * 3600 * 1000).toISOString(),
+      sizeMB: 48.2,
+      createdAt: new Date(now - 7 * 24 * 3600 * 1000).toISOString(),
     },
     {
-      id:          "rec-002",
-      meetingId:   "967-093-204",
-      title:       "Backend Architecture Review",
-      filename:    "zoom_recording_2026-06-14T14-30-00.webm",
+      id: "rec-002",
+      meetingId: "967-093-204",
+      title: "Backend Architecture Review",
+      filename: "zoom_recording_2026-06-14T14-30-00.webm",
       durationSec: 4521,
-      sizeMB:      61.5,
-      createdAt:   new Date(now - 14 * 24 * 3600 * 1000).toISOString(),
+      sizeMB: 61.5,
+      createdAt: new Date(now - 14 * 24 * 3600 * 1000).toISOString(),
     },
     {
-      id:          "rec-003",
-      meetingId:   "995-881-767",
-      title:       "Client Demo — Acme Corp",
-      filename:    "zoom_recording_2026-06-07T15-00-00.webm",
+      id: "rec-003",
+      meetingId: "995-881-767",
+      title: "Client Demo — Acme Corp",
+      filename: "zoom_recording_2026-06-07T15-00-00.webm",
       durationSec: 2847,
-      sizeMB:      38.7,
-      createdAt:   new Date(now - 21 * 24 * 3600 * 1000).toISOString(),
+      sizeMB: 38.7,
+      createdAt: new Date(now - 21 * 24 * 3600 * 1000).toISOString(),
     },
   ];
 }
@@ -123,11 +123,11 @@ function RecordingCard({
   onDelete,
   onPlay,
 }: {
-  rec:      Recording;
+  rec: Recording;
   onDelete: (id: string) => void;
-  onPlay:   (rec: Recording) => void;
+  onPlay: (rec: Recording) => void;
 }) {
-  const router = useRouter();
+  // const router = useRouter();
 
   return (
     <div className="group bg-white rounded-2xl border border-[#E5E5E5] hover:border-[#0B5CFF]/30 hover:shadow-md transition-all duration-200 overflow-hidden">
@@ -139,7 +139,7 @@ function RecordingCard({
       >
         {/* Decorative grid of fake video tiles */}
         <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-1 p-2 opacity-30">
-          {["#6366f1","#27AE60","#D97706","#0B5CFF"].map((c, i) => (
+          {["#6366f1", "#27AE60", "#D97706", "#0B5CFF"].map((c, i) => (
             <div key={i} className="rounded-lg flex items-center justify-center" style={{ backgroundColor: c + "33" }}>
               <div className="w-6 h-6 rounded-full" style={{ backgroundColor: c }} />
             </div>
@@ -240,9 +240,9 @@ function PlaybackModal({ rec, onClose }: { rec: Recording; onClose: () => void }
           {/* Fake video frame with grid of participant tiles */}
           <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-2 p-4">
             {[
-              { name: "Raj Kumar",    color: "#0B5CFF", init: "RK" },
+              { name: "Raj Kumar", color: "#0B5CFF", init: "RK" },
               { name: "Priya Sharma", color: "#6366f1", init: "PS" },
-              { name: "Ankit Verma",  color: "#27AE60", init: "AV" },
+              { name: "Ankit Verma", color: "#27AE60", init: "AV" },
               { name: "Sunita Patel", color: "#D97706", init: "SP" },
             ].map((p, i) => (
               <div key={i} className="relative flex items-center justify-center bg-[#2D2D3A] rounded-xl overflow-hidden"
@@ -304,8 +304,8 @@ function PlaybackModal({ rec, onClose }: { rec: Recording; onClose: () => void }
 
 function RecordingsContent() {
   const [recordings, setRecordings] = useState<Recording[]>([]);
-  const [query,      setQuery]      = useState("");
-  const [playing,    setPlaying]    = useState<Recording | null>(null);
+  const [query, setQuery] = useState("");
+  const [playing, setPlaying] = useState<Recording | null>(null);
 
   useEffect(() => {
     setRecordings(loadRecordings());
@@ -324,7 +324,7 @@ function RecordingsContent() {
   );
 
   const totalDuration = recordings.reduce((s, r) => s + r.durationSec, 0);
-  const totalSize     = recordings.reduce((s, r) => s + r.sizeMB, 0);
+  const totalSize = recordings.reduce((s, r) => s + r.sizeMB, 0);
 
   return (
     <div className="min-h-screen bg-[#F4F4F4]">
@@ -362,9 +362,9 @@ function RecordingsContent() {
         {recordings.length > 0 && (
           <div className="grid grid-cols-3 gap-4">
             {[
-              { label: "Total Recordings", value: String(recordings.length),    icon: <Video     className="w-4 h-4 text-[#0B5CFF]" /> },
-              { label: "Total Duration",   value: formatDuration(totalDuration), icon: <Clock     className="w-4 h-4 text-[#7C3AED]" /> },
-              { label: "Storage Used",     value: formatBytes(totalSize),        icon: <Film      className="w-4 h-4 text-[#27AE60]" /> },
+              { label: "Total Recordings", value: String(recordings.length), icon: <Video className="w-4 h-4 text-[#0B5CFF]" /> },
+              { label: "Total Duration", value: formatDuration(totalDuration), icon: <Clock className="w-4 h-4 text-[#7C3AED]" /> },
+              { label: "Storage Used", value: formatBytes(totalSize), icon: <Film className="w-4 h-4 text-[#27AE60]" /> },
             ].map((s) => (
               <div key={s.label} className="bg-white rounded-2xl border border-[#E5E5E5] px-5 py-4 flex items-center gap-4 shadow-sm">
                 <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-[#F5F5F5]">
