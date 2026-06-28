@@ -79,13 +79,13 @@ function formatApiError(detail: ApiError["detail"]): string {
 // =============================================================================
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+  process.env.NEXT_PUBLIC_API_URL ?? "https://zoom-clone-ul7d.onrender.com";
 
 export const apiClient = axios.create({
-  baseURL:         BASE_URL,
-  headers:         { "Content-Type": "application/json" },
+  baseURL: BASE_URL,
+  headers: { "Content-Type": "application/json" },
   withCredentials: false,
-  timeout:         15_000,
+  timeout: 15_000,
 });
 
 type RetryConfig = InternalAxiosRequestConfig & { _retry?: boolean };
