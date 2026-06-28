@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================================================
+   Zoom Clone — Design System
+   Primary:  #0B5CFF  (Zoom blue)
+   Orange:   #FF6B00  (New Meeting)
+   Red:      #EB5757  (danger / muted)
+   Green:    #27AE60  (active / online)
+   Navy bg:  #1C1C2E  (navbar)
+   Dark bg:  #1A1A1A  (meeting room)
+   Border:   #E5E5E5
+   Text:     #1A1A1A / #747487
+============================================================================= */
+
+@layer base {
+  :root {
+    --zoom-blue:   #0B5CFF;
+    --zoom-orange: #FF6B00;
+    --zoom-red:    #EB5757;
+    --zoom-green:  #27AE60;
+    --zoom-navy:   #1C1C2E;
+    --zoom-dark:   #1A1A1A;
+    --zoom-border: #E5E5E5;
+    --zoom-text:   #1A1A1A;
+    --zoom-muted:  #747487;
+    --font-inter:  "Inter", system-ui, sans-serif;
+  }
+
+  html {
+    font-family: var(--font-inter);
+  }
+
+  body {
+    color: var(--zoom-text);
+    background: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * { box-sizing: border-box; }
+
+  /* Thin custom scrollbar */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+
+  /* ── Modal backdrop ─────────────────────────────── */
+  .modal-backdrop {
+    @apply fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px];
+  }
+
+  /* ── Modal card animation ──────────────────────── */
+  .modal-enter {
+    animation: modalEnter 150ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes modalEnter {
+    from { opacity: 0; transform: scale(0.95) translateY(4px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0);   }
+  }
+
+  /* ── Action card hover ─────────────────────────── */
+  .action-card-hover {
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .action-card-hover:hover:not(:disabled) {
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+  .action-card-hover:active:not(:disabled) {
+    transform: scale(0.99);
+  }
+
+  /* ── Status badges ─────────────────────────────── */
+  .badge-ended {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#F3F4F6] text-[#6B7280];
+  }
+  .badge-active {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#D1FAE5] text-[#065F46];
+  }
+  .badge-waiting {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#DBEAFE] text-[#1D4ED8];
+  }
+
+  /* ── Control button hover (meeting room) ─────────── */
+  .ctrl-btn {
+    transition: background-color 150ms ease, transform 100ms ease;
+  }
+  .ctrl-btn:hover:not(:disabled) {
+    filter: brightness(1.15);
+  }
+  .ctrl-btn:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+}
