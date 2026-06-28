@@ -32,7 +32,7 @@ import {
 } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { ChatPanel, InviteModal } from "@/components/MeetingUI";
-import { RECORDINGS_KEY } from "@/app/recordings/page";
+import { RECORDINGS_KEY } from "@/lib/recordings"
 import type { Meeting, Participant } from "@/types";
 
 // =============================================================================
@@ -47,7 +47,7 @@ function formatElapsed(s: number): string {
 }
 
 function nameToColor(name: string): string {
-  const palette = ["#6366f1","#8b5cf6","#ec4899","#f59e0b","#10b981","#3b82f6","#ef4444","#14b8a6"];
+  const palette = ["#6366f1", "#8b5cf6", "#ec4899", "#f59e0b", "#10b981", "#3b82f6", "#ef4444", "#14b8a6"];
   let h = 0;
   for (let i = 0; i < name.length; i++) h = name.charCodeAt(i) + ((h << 5) - h);
   return palette[Math.abs(h) % palette.length];
@@ -62,14 +62,14 @@ function toInitials(name: string): string {
 // =============================================================================
 
 interface VideoTileProps {
-  name:        string;
-  initials:    string;
-  color:       string;
-  isYou?:      boolean;
-  isMuted?:    boolean;
+  name: string;
+  initials: string;
+  color: string;
+  isYou?: boolean;
+  isMuted?: boolean;
   isVideoOff?: boolean;
-  isHost?:     boolean;
-  stream?:     MediaStream | null;
+  isHost?: boolean;
+  stream?: MediaStream | null;
 }
 
 function VideoTile({ name, initials, color, isYou = false, isMuted = false, isVideoOff = false, isHost = false, stream = null }: VideoTileProps) {
@@ -78,7 +78,7 @@ function VideoTile({ name, initials, color, isYou = false, isMuted = false, isVi
   useEffect(() => {
     const el = videoRef.current;
     if (!el) return;
-    if (stream) { el.srcObject = stream; el.play().catch(() => {}); }
+    if (stream) { el.srcObject = stream; el.play().catch(() => { }); }
     else { el.srcObject = null; }
   }, [stream]);
 
@@ -152,13 +152,13 @@ function CtrlBtn({
   disabled = false,
   badge,
 }: {
-  icon:      React.ReactNode;
-  label:     string;
-  onClick:   () => void;
-  isOff?:    boolean;
+  icon: React.ReactNode;
+  label: string;
+  onClick: () => void;
+  isOff?: boolean;
   isActive?: boolean;
   disabled?: boolean;
-  badge?:    number;
+  badge?: number;
 }) {
   const bg = isOff ? "#EB5757" : isActive ? "#27AE60" : "#2D2D3A";
   return (
@@ -222,10 +222,10 @@ function ParticipantsPanel({
   onClose,
   loading,
 }: {
-  participants:  Participant[];
+  participants: Participant[];
   currentUserId: string | null;
-  onClose:       () => void;
-  loading:       boolean;
+  onClose: () => void;
+  loading: boolean;
 }) {
   return (
     <aside className="flex flex-col w-[280px] shrink-0 border-l" style={{ backgroundColor: "#1A1A2E", borderColor: "#2D2D3A" }}>
@@ -324,39 +324,39 @@ function LoadingScreen() {
 type SidePanel = "none" | "participants" | "chat";
 
 export default function MeetingRoomPage() {
-  const router    = useRouter();
-  const params    = useParams<{ meetingId: string }>();
+  const router = useRouter();
+  const params = useParams<{ meetingId: string }>();
   const meetingId = params.meetingId;
   const { user, loading: authLoading } = useAuth();
 
   // ── Data ───────────────────────────────────────────────────────────────────
-  const [meeting,      setMeeting]      = useState<Meeting | null>(null);
+  const [meeting, setMeeting] = useState<Meeting | null>(null);
   const [participants, setParticipants] = useState<Participant[]>([]);
-  const [loadState,    setLoadState]    = useState<"loading" | "ready" | "notfound">("loading");
+  const [loadState, setLoadState] = useState<"loading" | "ready" | "notfound">("loading");
   const [loadingParts, setLoadingParts] = useState(true);
 
   // ── Media controls ─────────────────────────────────────────────────────────
-  const [isMuted,    setIsMuted]    = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const [isVideoOff, setIsVideoOff] = useState(false);
-  const [isSharing,  setIsSharing]  = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
 
   // ── UI state ───────────────────────────────────────────────────────────────
-  const [sidePanel,    setSidePanel]    = useState<SidePanel>("none");
-  const [elapsed,      setElapsed]      = useState(0);
-  const [leaving,      setLeaving]      = useState(false);
-  const [reaction,     setReaction]     = useState<string | null>(null);
-  const [showInvite,   setShowInvite]   = useState(false);
+  const [sidePanel, setSidePanel] = useState<SidePanel>("none");
+  const [elapsed, setElapsed] = useState(0);
+  const [leaving, setLeaving] = useState(false);
+  const [reaction, setReaction] = useState<string | null>(null);
+  const [showInvite, setShowInvite] = useState(false);
 
   // ── Recording ──────────────────────────────────────────────────────────────
-  const [isRecording,   setIsRecording]   = useState(false);
-  const [recSeconds,    setRecSeconds]    = useState(0);
+  const [isRecording, setIsRecording] = useState(false);
+  const [recSeconds, setRecSeconds] = useState(0);
   const recTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // ── Streams ────────────────────────────────────────────────────────────────
-  const [localStream,  setLocalStream]  = useState<MediaStream | null>(null);
+  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [screenStream, setScreenStream] = useState<MediaStream | null>(null);
 
-  const timerRef      = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const localStreamRef = useRef<MediaStream | null>(null);
 
   const isHost = !!(user && meeting && meeting.hostId === user.id);
@@ -421,7 +421,7 @@ export default function MeetingRoomPage() {
   }, [meetingId, authLoading, user?.name, startTimer]);
 
   // ── Sync audio/video tracks ────────────────────────────────────────────────
-  useEffect(() => { localStream?.getAudioTracks().forEach((t) => { t.enabled = !isMuted;    }); }, [isMuted,    localStream]);
+  useEffect(() => { localStream?.getAudioTracks().forEach((t) => { t.enabled = !isMuted; }); }, [isMuted, localStream]);
   useEffect(() => { localStream?.getVideoTracks().forEach((t) => { t.enabled = !isVideoOff; }); }, [isVideoOff, localStream]);
 
   // ── Copy invite link ───────────────────────────────────────────────────────
@@ -460,7 +460,7 @@ export default function MeetingRoomPage() {
   // ── Refresh participants ───────────────────────────────────────────────────
   async function refreshParticipants() {
     setLoadingParts(true);
-    try   { setParticipants(await getParticipants(meetingId)); }
+    try { setParticipants(await getParticipants(meetingId)); }
     catch { /* keep stale */ }
     finally { setLoadingParts(false); }
   }
@@ -497,7 +497,7 @@ export default function MeetingRoomPage() {
   }
 
   // ── Reactions ──────────────────────────────────────────────────────────────
-  const REACTIONS = ["👍","👏","😂","❤️","🎉","🔥","💯","🙌"];
+  const REACTIONS = ["👍", "👏", "😂", "❤️", "🎉", "🔥", "💯", "🙌"];
   const [showReactionPicker, setShowReactionPicker] = useState(false);
 
   function sendReaction(emoji: string) {
@@ -520,23 +520,23 @@ export default function MeetingRoomPage() {
     if (recTimerRef.current) clearInterval(recTimerRef.current);
     setIsRecording(false);
 
-    const ts       = new Date().toISOString();
-    const tsSafe   = ts.replace(/[:.]/g, "-").slice(0, 19);
+    const ts = new Date().toISOString();
+    const tsSafe = ts.replace(/[:.]/g, "-").slice(0, 19);
     const filename = `zoom_recording_${tsSafe}.webm`;
     const durationSec = recSeconds;
 
     // Persist to localStorage so /recordings page can display it
     const newRec = {
-      id:          `rec-${Date.now()}`,
-      meetingId:   meetingId,
-      title:       meeting?.title ?? "Meeting Recording",
+      id: `rec-${Date.now()}`,
+      meetingId: meetingId,
+      title: meeting?.title ?? "Meeting Recording",
       filename,
       durationSec,
-      sizeMB:      parseFloat((durationSec * 0.015).toFixed(1)), // ~15 KB/s estimate
-      createdAt:   ts,
+      sizeMB: parseFloat((durationSec * 0.015).toFixed(1)), // ~15 KB/s estimate
+      createdAt: ts,
     };
     try {
-      const raw  = localStorage.getItem(RECORDINGS_KEY);
+      const raw = localStorage.getItem(RECORDINGS_KEY);
       const recs = raw ? JSON.parse(raw) : [];
       localStorage.setItem(RECORDINGS_KEY, JSON.stringify([newRec, ...recs]));
     } catch { /* ignore storage errors */ }
@@ -559,26 +559,26 @@ export default function MeetingRoomPage() {
 
   function toggleRecording() {
     if (isRecording) stopRecording();
-    else             startRecording();
+    else startRecording();
   }
 
   // ── Guard ──────────────────────────────────────────────────────────────────
   if (authLoading || loadState === "loading") return <LoadingScreen />;
-  if (loadState === "notfound")               return <MeetingNotFound meetingId={meetingId} />;
+  if (loadState === "notfound") return <MeetingNotFound meetingId={meetingId} />;
 
   // ── Video grid ─────────────────────────────────────────────────────────────
   const gridTiles = participants.map((p) => {
     const isYou = !!(user && p.userId === user.id);
     return {
-      key:        p.id,
-      name:       p.displayName,
-      initials:   toInitials(p.displayName),
-      color:      isYou ? "#0B5CFF" : nameToColor(p.displayName),
+      key: p.id,
+      name: p.displayName,
+      initials: toInitials(p.displayName),
+      color: isYou ? "#0B5CFF" : nameToColor(p.displayName),
       isYou,
-      isMuted:    isYou ? isMuted : false,
+      isMuted: isYou ? isMuted : false,
       isVideoOff: isYou ? isVideoOff : false,
-      isHost:     p.isHost,
-      stream:     isYou ? (screenStream ?? localStream) : null,
+      isHost: p.isHost,
+      stream: isYou ? (screenStream ?? localStream) : null,
     };
   });
 
