@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import {
   Circle,
   Clock,
@@ -127,7 +126,6 @@ function RecordingCard({
   onDelete: (id: string) => void;
   onPlay: (rec: Recording) => void;
 }) {
-  // const router = useRouter();
 
   return (
     <div className="group bg-white rounded-2xl border border-[#E5E5E5] hover:border-[#0B5CFF]/30 hover:shadow-md transition-all duration-200 overflow-hidden">
