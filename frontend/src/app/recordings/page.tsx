@@ -1,5 +1,6 @@
 "use client";
 
+import { RECORDINGS_KEY } from "@/lib/recordings";
 import { useEffect, useState } from "react";
 import {
   Circle,
@@ -31,8 +32,6 @@ export interface Recording {
   createdAt: string;   // ISO string
 }
 
-// Key used in localStorage by the meeting room page
-export const RECORDINGS_KEY = "zoom_recordings";
 
 // =============================================================================
 //  Helpers
